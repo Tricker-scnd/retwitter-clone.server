@@ -231,14 +231,18 @@ class TweetsController {
         const user = req.user as UserModelInterface;
         const oldPinnedTweetId = user.pinnedTweet;
 
+        const setType = type === 'PIN' ? true : false;
+        const setTypeUser = type === 'PIN' ? tweetId : null;
+
+
         const User = await UserModel.findByIdAndUpdate(user._id, {
-          $set: { pinnedTweet: type === 'PIN' ? tweetId : '' },
+          $set: { pinnedTweet: setTypeUser },
         });
         const oldTweet = await TweetModel.findByIdAndUpdate(oldPinnedTweetId, {
           $set: { pinned: false },
         });
         const tweet = await TweetModel.findByIdAndUpdate(tweetId, {
-          $set: { pinned: type === 'PIN' ? true : false },
+          $set: { pinned: setType },
         });
 
         res.status(200).json({
@@ -246,6 +250,8 @@ class TweetsController {
         });
       }
     } catch (e) {
+      console.log(e);
+
       res.json({
         status: 'error',
         message: JSON.stringify(e),

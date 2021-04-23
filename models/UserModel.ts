@@ -72,6 +72,8 @@ const UserSchema = new Schema({
     type: String,
     default: '/img/avatar_default.png',
   },
+  pinnedTweet: { type: String, default: '' },
+
   subscribers: [{ type: Schema.Types.ObjectId }],
   subscriptions: [{ type: Schema.Types.ObjectId }],
   likes: {
@@ -83,7 +85,6 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  pinnedTweet: { type: String, default: '' },
   website: String,
 });
 
